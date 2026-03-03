@@ -45,8 +45,8 @@ def read_binary(file_path):
 
 #create stub template for output binary
 def create_stub():
-    """Creates a stub template for the output binary."""
-    return f"""#!/usr/bin/env python3
+    """Creates a runtime stub that extracts and runs the embedded binaries."""
+    stub_code =f"""#!/usr/bin/env python3
 import tempfile, subprocess, osm, sys
 MAGIC_DELIMITER = {MAGIC_DELIMITER}
 
@@ -76,6 +76,7 @@ def extract_and_run():
     if __name__ == "__main__":
         extract_and_run()
 """
+    return stub_code.encode("utf-8")
 
 def write_merged(output_path, stub, bin1, bin2):
     """Writes the merged content to the output binary."""
