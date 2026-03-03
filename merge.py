@@ -87,6 +87,8 @@ def write_merged(output_path, stub, bin1, bin2):
             output_file.write(bin1.encode())
             output_file.write(MAGIC_DELIMITER)
             output_file.write(bin2.encode())
+
+            os.chmod(output_path, 0o755)
         print(f"Merged binary written to {output_path} successfully.")
     except Exception as e:
         print(f"Error writing to {output_path}: {e}")
