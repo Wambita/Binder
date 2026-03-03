@@ -96,7 +96,11 @@ def write_merged(output_path, stub, bin1, bin2):
 
 def main():
     """Main function to merge the outputs of two binary executables."""
-
+    bin1_path, bin2_path, output_path = validate_arguments()
+    bin1_content = read_binary(bin1_path)
+    bin2_content = read_binary(bin2_path)
+    stub = create_stub()
+    write_merged(output_path, stub, bin1_content, bin2_content)
 
 if __name__ == "__main__":
     main()
