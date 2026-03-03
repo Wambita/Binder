@@ -64,5 +64,20 @@ def extract_and_run():
         extract_and_run()
 """
 
+def write_merged(output_path, stub, bin1, bin2):
+    """Writes the merged content to the output binary."""
+    try:
+        with open(output_path, 'wb') as output_file:
+            output_file.write(stub)
+            output_file.write(MAGIC_DELIMITER)
+            output_file.write(bin1.encode())
+            output_file.write(MAGIC_DELIMITER)
+            output_file.write(bin2.encode())
+        print(f"Merged binary written to {output_path} successfully.")
+    except Exception as e:
+        print(f"Error writing to {output_path}: {e}")
+        sys.exit(1)
+
+
 if __name__ == "__main__":
     main()
