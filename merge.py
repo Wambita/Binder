@@ -3,22 +3,35 @@
 # Created on: March 2026
 # This program merges the outputs of two binary executables
 
+
+
 import sys
+import os
 
-def main():
-    """Main function to merge the outputs of two binary executables."""
-    # Check if the correct number of arguments are provided
+MAGIC_DELIMITER = b"---MAGIC_DELIMITER---"
+
+def validate_arguments():
+    """Validates the command-line arguments and returns the paths of the binaries and output file."""
     if len(sys.argv) != 5 or sys.argv[3] != "-o":
-        print("Usage: ./merge.py bin1 bin2 -o output_binary")
+        print("Usage: ./merge.py <binary1> <binary2> -o <output_binary>")
         sys.exit(1)
-    bin1_data = read_binary(sys.argv[1])
-    bin2_data = read_binary(sys.argv[2])
-    print("Arguments validated successfully.")
 
-    # Merge the two binary contents with a delimiter
-    MAGIC_DELIMITER = b"---BINARY_DELIMITER---"
+    bin1_path = sys.argv[1]
+    bin2_path = sys.argv[2]
+    output_path = sys.argv[4]
+
+    if not os.path.exists(bin1_path):
+        print(f"Error: File not found -> {bin1_path}")
+        sys.exit(1)
+
+    if not os.path.exists(bin2_path):
+        print(f"Error: File not found -> {bin2_path}")
+        sys.exit(1)
+
+    return bin1_path, bin2_path, output_path
 
 
+# Function to read the content of a binary file
 def read_binary(file_path):
     """Reads the content of a binary file and returns it as a string."""
     try:
@@ -77,6 +90,9 @@ def write_merged(output_path, stub, bin1, bin2):
     except Exception as e:
         print(f"Error writing to {output_path}: {e}")
         sys.exit(1)
+
+def main():
+    """Main function to merge the outputs of two binary executables."""
 
 
 if __name__ == "__main__":
