@@ -30,8 +30,39 @@ def read_binary(file_path):
         print(f"Error reading {file_path}: {e}")
         sys.exit(1)
 
+#create stub template for output binary
+def create_stub():
+    """Creates a stub template for the output binary."""
+    return f"""#!/usr/bin/env python3
+import tempfile, subprocess, osm, sys
+MAGIC_DELIMITER = {MAGIC_DELIMITER}
 
+def extract_and_run():
+    data = open(sys.argv[0], 'rb').read()
+    parts = data.split(MAGIC_DELIMITER)
+    if len(parts) < 3:
+        print("Error: Missing embedded binaries")
+        return
+    
+    bin1_data = parts[1]
+    bin2_data = parts[2]
 
+    with tempfile.TemporaryDirectory() as temp_dir:
+        bin1_path = os.path.join(temp_dir, "bin1.py")
+        bin2_path = os.path.join(temp_dir, "bin2.py")
+        
+        open(bin1_path, 'wb').write(bin1_data)
+        open(bin2_path, 'wb').write(bin2_data)
+
+        osm.chmod(bin1_path, 0o755)
+        osm.chmod(bin2_path, 0o755)
+
+        subprocess.run(["python3", bin1_path])
+        subprocess.run(["python3", bin2_path])
+
+    if __name__ == "__main__":
+        extract_and_run()
+"""
 
 if __name__ == "__main__":
     main()
