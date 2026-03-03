@@ -9,7 +9,7 @@ Binary Binder - Educational Project
 This tool merges two executable files into a single executable.
 When the merged file is executed, it extracts and runs both programs sequentially.
 
-⚠️ Disclaimer:
+ Disclaimer:
 This project is for educational and cybersecurity research purposes only.
 Do NOT use this technique on unauthorized systems or software.
 Misuse may violate laws and ethical guidelines.
