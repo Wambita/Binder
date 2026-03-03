@@ -3,12 +3,22 @@
 # Created on: March 2026
 # This program merges the outputs of two binary executables
 
+"""
+Binary Binder - Educational Project
 
+This tool merges two executable files into a single executable.
+When the merged file is executed, it extracts and runs both programs sequentially.
+
+⚠️ Disclaimer:
+This project is for educational and cybersecurity research purposes only.
+Do NOT use this technique on unauthorized systems or software.
+Misuse may violate laws and ethical guidelines.
+"""
 
 import sys
 import os
 
-MAGIC_DELIMITER = b"---MAGIC_DELIMITER---"
+MAGIC_DELIMITER = b"--MAGIC_DELIMITER--"
 
 def validate_arguments():
     """Validates the command-line arguments and returns the paths of the binaries and output file."""
@@ -47,7 +57,7 @@ def read_binary(file_path):
 def create_stub():
     """Creates a runtime stub that extracts and runs the embedded binaries."""
     stub_code =f"""#!/usr/bin/env python3
-import tempfile, subprocess, osm, sys
+import tempfile, subprocess, os, sys
 MAGIC_DELIMITER = {MAGIC_DELIMITER}
 
 def extract_and_run():
@@ -67,8 +77,8 @@ def extract_and_run():
         open(bin1_path, 'wb').write(bin1_data)
         open(bin2_path, 'wb').write(bin2_data)
 
-        osm.chmod(bin1_path, 0o755)
-        osm.chmod(bin2_path, 0o755)
+        os.chmod(bin1_path, 0o755)
+        os.chmod(bin2_path, 0o755)
 
         subprocess.run(["python3", bin1_path])
         subprocess.run(["python3", bin2_path])
@@ -95,11 +105,18 @@ def write_merged(output_path, stub, bin1, bin2):
         sys.exit(1)
 
 def main():
+
     """Main function to merge the outputs of two binary executables."""
     bin1_path, bin2_path, output_path = validate_arguments()
+
+    print(f"Reading binary files: {bin1_path} and {bin2_path} ...")
     bin1_content = read_binary(bin1_path)
     bin2_content = read_binary(bin2_path)
+
+    print("Creating runtime stub...")
     stub = create_stub()
+
+    print("Writing merged binary...")
     write_merged(output_path, stub, bin1_content, bin2_content)
 
 if __name__ == "__main__":
