@@ -6,6 +6,7 @@
 import sys
 
 def main():
+    """Main function to merge the outputs of two binary executables."""
     # Check if the correct number of arguments are provided
     if len(sys.argv) != 5 or sys.argv[3] != "-o":
         print("Usage: ./merge.py bin1 bin2 -o output_binary")
@@ -14,7 +15,12 @@ def main():
     bin2_data = read_binary(sys.argv[2])
     print("Arguments validated successfully.")
 
+    # Merge the two binary contents with a delimiter
+    MAGIC_DELIMITER = b"---BINARY_DELIMITER---"
+
+
 def read_binary(file_path):
+    """Reads the content of a binary file and returns it as a string."""
     try:
         with open(file_path, 'r') as file:
             content = file.read()
