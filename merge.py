@@ -45,7 +45,7 @@ def validate_arguments():
 def read_binary(file_path):
     """Reads the content of a binary file and returns it as a string."""
     try:
-        with open(file_path, 'r') as file:
+        with open(file_path, 'rb') as file:
             content = file.read()
             print(f"Content of {file_path} read successfully.")
             return content
